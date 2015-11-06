@@ -7,6 +7,7 @@ require File.expand_path("../linkshare_api/deep_linking", __FILE__)
 require File.expand_path("../linkshare_api/product_search", __FILE__)
 require File.expand_path("../linkshare_api/coupon_web_service", __FILE__)
 require File.expand_path("../linkshare_api/response", __FILE__)
+require File.expand_path("../linkshare_api/get_approved_merchants", __FILE__)
 
 # Errors
 require File.expand_path("../linkshare_api/errors/error", __FILE__)
@@ -22,17 +23,20 @@ module LinkshareAPI
     link_generator: "http://getdeeplink.linksynergy.com/createcustomlink.shtml",
     deep_linking: "http://click.linksynergy.com/deeplink",
     product_search: "http://productsearch.linksynergy.com/productsearch",
-    coupon_web_service: "http://couponfeed.linksynergy.com/coupon"
+    coupon_web_service: "http://couponfeed.linksynergy.com/coupon",
+    get_approved_merchants: "http://lld2.linksynergy.com/services/restLinks/getMerchByAppStatus"
   }
 
   PARSE_RESULT = {
     link_generator: "item",
     product_search: "item",
-    coupon_web_service: "link"
+    coupon_web_service: "link",
+    get_approved_merchants: "return"
   }
 
   RESULT = {
     product_search: "result",
+    get_approved_merchants: "getMerchByAppStatusResponse",
     coupon_web_service: "couponfeed"
   }
 
@@ -77,6 +81,10 @@ module LinkshareAPI
 
   def self.coupon_web_service(options = {})
     coupon_web_service = LinkshareAPI::CouponWebService.new
+    coupon_web_service.query(options)
+  end
+  def self.get_approved_merchants(options = {})
+    coupon_web_service = LinkshareAPI::GetApprovedMerchants.new
     coupon_web_service.query(options)
   end
 end
